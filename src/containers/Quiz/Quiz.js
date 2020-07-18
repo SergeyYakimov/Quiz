@@ -6,14 +6,20 @@ class Quiz extends Component {
   state = {
     quiz: [
       {
+        question: 'Какой город является столицей Японии?',
+        rightAnswerId: 2,
         answers: [
-          {text: 'Ответ 1'},
-          {text: 'Ответ 2'},
-          {text: 'Ответ 3'},
-          {text: 'Ответ 4'}
+          {text: 'Осака', id: 1},
+          {text: 'Токио', id: 2},
+          {text: 'Киото', id: 3},
+          {text: 'Ниигата', id: 4}
         ]
       }
     ]
+  }
+
+  onAnswerClickHandler = (answerId) => {
+    console.log('Answer Id', answerId)
   }
 
   render() {
@@ -21,7 +27,11 @@ class Quiz extends Component {
       <div className={classes.Quiz}>
         <div className={classes.QuizWrapper}>
           <h1>Ответьте на все вопросы</h1>
-          <ActiveQuiz answers={this.state.quiz[0].answers}/>
+          <ActiveQuiz
+            answers={this.state.quiz[0].answers}
+            question={this.state.quiz[0].question}
+            onAnswerClick={this.onAnswerClickHandler}
+          />
         </div>
       </div>
     )
