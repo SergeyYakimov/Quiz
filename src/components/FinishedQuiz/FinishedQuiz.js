@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../UI/Button/Button';
 import classes from './FinishedQuiz.module.css';
+import {Link} from 'react-router-dom';
 
 const FinishedQuiz = props => {
   const successCount = Object
@@ -25,7 +26,7 @@ const FinishedQuiz = props => {
             <li key={index}>
               <strong>{index + 1}.</strong>&nbsp;
               {item.question}
-              <i className={cls.join(' ')}></i>
+              <i className={cls.join(' ')}/>
             </li>
           )
         })}
@@ -34,7 +35,9 @@ const FinishedQuiz = props => {
       
       <div>
         <Button onClick={props.onRetry} type={'primary'}>Повторить</Button>
-        <Button onClick={() => {}} type={'success'}>Перейти в список тестов</Button>
+        <Link to='/'>
+          <Button onClick={() => {}} type={'success'}>Перейти в список тестов</Button>
+        </Link>
       </div>
     </div>
   )
