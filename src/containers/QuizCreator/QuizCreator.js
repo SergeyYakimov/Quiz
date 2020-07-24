@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import classes from './QuizCreator.module.css';
 import Button from '../../components/UI/Button/Button';
-import {createControl} from '../../form/FormFramework';
+import {createControl, validate, validateForm} from '../../form/FormFramework';
 import Input from '../../components/UI/Input/Input';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import Select from '../../components/UI/Select/Select';
@@ -35,6 +35,7 @@ export default class QuizCreator extends Component {
   state = {
     quiz: [],
     rightAnswerId: 1,
+    isFormValid: false,
     formControls: createFormControls()
   }
 
@@ -42,16 +43,28 @@ export default class QuizCreator extends Component {
     event.preventDefault()
   }
 
-  addQuestionHandler = () => {
-
+  addQuestionHandler = event => {
+    event.preventDefault()
   }
 
   createQuizHandler = () => {
 
   }
 
-  onChangeHandler = (value, controlName) => {
+  onChangeHandler = (value, name) => {
+    const formControls = {...this.state.formControls}
+    const control = {...formControls[name]}
 
+    control.touched = true
+    control.value = value
+    control.valid = validate(control.value, control.validation)
+
+    formControls[name] = control
+
+    this.setState({
+      isFormValid: validateForm(formControls),
+      formControls
+    })
   }
 
   renderControls() {
@@ -78,7 +91,7 @@ export default class QuizCreator extends Component {
 
   selectChangeHandler = event => {
     this.setState({
-      rightAnswerId: event.target.value
+      rightAnswerId: +event.target.value
     })
   }
 
@@ -114,12 +127,14 @@ export default class QuizCreator extends Component {
             />
             <Button
               type='primary'
+              disabled={!this.state.isFormValid}
               onClick={this.addQuestionHandler}
             >
               Добавить вопрос
             </Button>
             <Button
               type='success'
+              disabled={!this.state.quiz.length}
               onClick={this.createQuizHandler}
             >
               Создать тест
