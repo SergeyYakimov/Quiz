@@ -19,7 +19,7 @@ class QuizList extends Component {
     })
   }
   
-  async componentDidMount() {
+  componentDidMount() {
     this.props.fetchQuizes()
   }
 
